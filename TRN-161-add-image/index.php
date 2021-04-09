@@ -4,11 +4,26 @@
     <title>Image_Upload</title>
 </head>
 <body>
+    <?php
 
-    <form action="upload.php" method="POST" enctype="multipart/form-data">
-        <input type="file" name="file_upload">
+        $output = "";
+
+        require('upload.php');
+
+        if(isset($_POST["submit"]))
+        {
+            $file = new File_Upload($_FILES['file']);
+            $output = $file->display();
+        }
+
+    ?>
+
+    <h1>Uploading an Image</h1>
+    <form method="POST" action="index.php" enctype="multipart/form-data">
+        <input type="file" name="file"><br><br>
         <input type="submit" name="submit" value="Upload an Image">
     </form>
 
+    <img src="<?php echo $output;?>" alt="Img">
 </body>
 </html>
