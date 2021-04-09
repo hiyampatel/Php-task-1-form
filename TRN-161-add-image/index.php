@@ -40,7 +40,7 @@
                         $output['out'] = '';
                         $message = 'File not uploaded';
                     }
-                    else if($output_img == False)
+                    else if($output_img == "False")
                     {
                         $output_img = '';
                         $output['full'] = '';

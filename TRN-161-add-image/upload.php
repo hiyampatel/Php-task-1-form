@@ -18,9 +18,9 @@ class File_Upload
 
         $type = $this->folder['type'];
 
-        if(preg_match('/Image/', $type) == 0)
+        if(preg_match("/Image/i", $type) == 0)
         {
-            return False;
+            return "False";
         }
         else
         {
