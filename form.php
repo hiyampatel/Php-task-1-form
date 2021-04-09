@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -11,7 +12,7 @@
             class user_validate
             {
                 private $name,$val;
-                public $error=[];
+                public $error=['first'=>'', 'last'=>'', 'full'=>''];
 
 
                 private static $field = ['first', 'last'];
@@ -31,19 +32,25 @@
                         }
                         else
                         {
-                            $n = $this->validate_str($this->$name[$value]);
+                            $n = $this->validate_str($this->name[$value]);
 
-                            if (!preg_match("/^[a-zA-Z- ]*$/", $value))
+                            if (!preg_match("/^[a-zA-Z- ]*$/", $n))
                             {
                                 $this->$error[$value] = "Characters Only";
                             }
-                            else{
-                                $this->$val = $this->$val.$value;
-                            }
+
+
                         }
                     }
 
+                    if (!($this->$error['first'] == 'Required') && !($this->$error['last'] == 'Required'))
+                    {
+                        $this->$error['full'] = $this->name['first'] . " " . $this->name['last'];
+                    }
 
+
+
+                    return $this->$error;
                 }
 
 
@@ -70,13 +77,19 @@
 
 
         <h1>Basic Form</h1>
-        <form method="POST" action="form.php">
-            First : <input type="text" name="first"><span><?php echo $error1['first'];?></span><br><br>
-            Last : <input type="text" name="last"><span><?php echo $error1['last'];?></span><br><br>
-            Full Name : <input type="type" id="full" name="full" value="" readonly><br><br>
+        <form method="POST" action="<?php echo $_SERVER['PHP_SELF']?>">
+
+            First : <input type="text" name="first"><span><?php echo $error1['first'] ?></span><br><br>
+
+            Last : <input type="text" name="last"><span><?php echo $error1['last']?></span><br><br>
+
+            Full Name : <input type="type" id="full" name="full" value="<?php echo $error1['full'] ?>" readonly><br><br>
+
             <input type="submit" name="submit" value="Submit">
         </form>
 
         <h2></h2>
     <body>
 </html>
+
+
