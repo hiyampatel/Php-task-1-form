@@ -17,7 +17,7 @@
 
             if (move_uploaded_file($this->folder["tmp_name"], $this->position))
             {
-                return $this->position;
+                return basename($this->folder["name"]);
             }
             else{
                 echo "File not uploaded";

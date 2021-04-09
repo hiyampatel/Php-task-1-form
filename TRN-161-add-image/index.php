@@ -23,7 +23,8 @@
         <input type="file" name="file"><br><br>
         <input type="submit" name="submit" value="Upload an Image">
     </form>
-
-    <img src="<?php echo $output;?>" alt="Img">
+    <br>
+    <img src="<?php echo 'Images/' . $output;?>" alt=""><br>
+    <?php echo $output;?>
 </body>
 </html>
