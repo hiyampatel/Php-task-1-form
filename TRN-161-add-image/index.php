@@ -1,30 +1,49 @@
+
+
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Image_Upload</title>
-</head>
-<body>
-    <?php
+    <head>
+        <title>Form</title>
+    </head>
+    <body>
+        <?php
 
-        $output = "";
+            require('User_Validation.php');
+            require('upload.php');
 
-        require('upload.php');
+            $output_img = "";
+            $output = [];
 
-        if(isset($_POST["submit"]))
-        {
-            $file = new File_Upload($_FILES['file']);
-            $output = $file->display();
-        }
+            if(isset($_POST['submit']))
+            {
 
-    ?>
+                $validation = new User_Validate($_POST);
+                $output = $validation->validateForm();
 
-    <h1>Uploading an Image</h1>
-    <form method="POST" action="index.php" enctype="multipart/form-data">
-        <input type="file" name="file"><br><br>
-        <input type="submit" name="submit" value="Upload an Image">
-    </form>
-    <br>
-    <img src="<?php echo 'Images/' . $output;?>" alt=""><br>
-    <?php echo $output;?>
-</body>
+                $file = new File_Upload($_FILES['file']);
+                $output_img = $file->display();
+            }
+        ?>
+
+
+        <h1>Basic Form</h1>
+        <form method="POST" action="<?php echo $_SERVER['PHP_SELF']?>" enctype="multipart/form-data">
+
+            First : <input type="text" name="first"><span><?php echo $output['first'] ?></span><br><br>
+
+            Last : <input type="text" name="last"><span><?php echo $output['last']?></span><br><br>
+
+            Full Name : <input type="type" id="full" name="full" value="<?php echo $output['full'] ?>" readonly><br><br>
+
+            <input type="file" name="file"><br><br>
+
+            <input type="submit" name="submit" value="Submit">
+        </form>
+
+        <h2><?php echo $output['out']?></h2>
+
+        <img src="<?php echo 'Images/' . $output_img;?>" alt=""><br>
+    <body>
 </html>
+
+
