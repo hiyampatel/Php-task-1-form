@@ -4,6 +4,11 @@
 <html>
     <head>
         <title>Form</title>
+        <style>
+            <?php
+                echo "td{padding:5px;}";
+            ?>
+        </style>
     </head>
     <body>
         <?php
@@ -51,7 +56,6 @@
                         $table = '';
                         $message = 'Not an Image file';
                     }
-
                 }
 
             }
@@ -80,6 +84,29 @@
 
         <p><?php echo $message; ?></p><br><br>
 
+        <?php
+
+            if($table != '')
+            {
+                echo "<table border='1' cellspacing='0'>";
+
+                echo "<tr>";
+                echo "<td><b>Subject</b></td>";
+                echo "<td><b>Marks</b></td>";
+                echo "<tr>";
+
+                foreach ($table as $sub => $mark)
+                {
+                    echo "<tr>";
+                    echo "<td>" . $sub . "</td>";
+                    echo "<td>" . $mark . "</td>";
+                    echo "<tr>";
+                }
+
+                echo "</table>";
+            }
+
+        ?>
 
     <body>
 </html>
