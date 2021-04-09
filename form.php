@@ -12,7 +12,7 @@
             class user_validate
             {
                 private $name,$val;
-                public $error=['first'=>'', 'last'=>'', 'full'=>''];
+                public $error=['first'=>'', 'last'=>'', 'full'=>'', 'out'=>''];
 
 
                 private static $field = ['first', 'last'];
@@ -48,6 +48,10 @@
                         $this->$error['full'] = $this->name['first'] . " " . $this->name['last'];
                     }
 
+                    if (($this->$error['first'] == '') && ($this->$error['last'] == ''))
+                    {
+                        $this->$error['out'] = "Hello " . $this->name['first'] . " " . $this->name['last'];
+                    }
 
 
                     return $this->$error;
@@ -70,9 +74,6 @@
                 $validation = new user_validate($_POST);
                 $error1 = $validation->validateForm();
             }
-
-
-
         ?>
 
 
@@ -88,7 +89,7 @@
             <input type="submit" name="submit" value="Submit">
         </form>
 
-        <h2></h2>
+        <h2><?php echo $error1['out']?></h2>
     <body>
 </html>
 
