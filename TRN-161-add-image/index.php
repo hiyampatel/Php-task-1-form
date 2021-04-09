@@ -13,6 +13,7 @@
 
             $output_img = "";
             $output = [];
+            $message = '';
 
             if(isset($_POST['submit']))
             {
@@ -20,8 +21,34 @@
                 $validation = new User_Validate($_POST);
                 $output = $validation->validateForm();
 
-                $file = new File_Upload($_FILES['file']);
-                $output_img = $file->display();
+                if(($output['first'] == 'Required') || ($output['last'] == 'Required'))
+                {
+                    $message = 'All fields Required';
+                    $output_img = '';
+                    $output['full'] = '';
+                    $output['out'] = '';
+                }
+                else
+                {
+                    $file = new File_Upload($_FILES['file']);
+                    $output_img = $file->display();
+
+                    if ($output_img == '')
+                    {
+                        $output_img = '';
+                        $output['full'] = '';
+                        $output['out'] = '';
+                        $message = 'File not uploaded';
+                    }
+                    else if($output_img == False)
+                    {
+                        $output_img = '';
+                        $output['full'] = '';
+                        $output['out'] = '';
+                        $message = 'Not an Image file';
+                    }
+
+                }
             }
         ?>
 
@@ -42,7 +69,9 @@
 
         <h2><?php echo $output['out']?></h2>
 
-        <img src="<?php echo 'Images/' . $output_img;?>" alt=""><br>
+        <img src="<?php echo 'Images/' . $output_img;?>"><br>
+
+        <p><?php echo $message; ?></p>
     <body>
 </html>
 
