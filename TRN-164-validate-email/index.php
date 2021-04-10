@@ -24,7 +24,7 @@
                 $table = $validation->Marks();
                 $output = $validation->validateForm();
 
-                if(($output['first'] == 'Required') || ($output['last'] == 'Required') || ($table == '') || ($output['phone'] == ''))
+                if(($output['first'] == 'Required') || ($output['last'] == 'Required') || ($table == '') || ($output['phone'] == '') || $output['email'] == '')
                 {
                     $message = 'All fields Required';
                     $table = "";
@@ -39,6 +39,18 @@
                     $table = '';
                     $message = 'Not a valid Indian number';
                     $p_message = "<br><b>Number must start with +91 and must contain 10 digits<b>";
+                    if ($output['email'] == 'False')
+                    {
+                        $message = $message . "<br>Not valid Email.";
+                    }
+                }
+                else if ($output['email'] == 'False')
+                {
+                    $output_img = '';
+                    $output['full'] = '';
+                    $output['out'] = '';
+                    $table = '';
+                    $message = 'Not a valid Email';
                 }
                 else
                 {
@@ -81,7 +93,9 @@
 
             <textarea rows="15" cols="50" name="marks"></textarea><br><br>
 
-            Phone Number : <input type="text" name="phone"><div><?php echo $p_message; ?></div><br><br>
+            Phone Number : <input type="text" name="phone"><div><?php echo $p_message; ?></div><br>
+
+            Email : <input type="text" name="email"><div><?php echo $output['email_syn']?></div><br>
 
             <input type="submit" name="submit" value="Submit">
         </form>

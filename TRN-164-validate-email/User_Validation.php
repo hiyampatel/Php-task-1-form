@@ -21,6 +21,7 @@ class User_Validate
 
         $this->name_validation();
         $this->phone_validation();
+        $this->email_validation();
 
         return $this->$output_val;
     }
@@ -109,6 +110,34 @@ class User_Validate
         {
             $this->$output_val['phone'] = $this->data['phone'];
         }
+    }
+
+
+    //validating email
+    private function email_validation()
+    {
+        if (empty($this->data['email']))
+        {
+            $this->$output_val['email'] = '';
+            return ;
+        }
+
+        $email = $this->data['email'];
+        $email = filter_var($email, FILTER_SANITIZE_EMAIL);     //remove unwanted characters.
+
+        if (filter_var($email, FILTER_VALIDATE_EMAIL))
+        {
+            $this->output_val['email_syn'] = 'Valid Syntax';
+        }
+        else
+        {
+            $this->$output_var['email_syn'] = 'Invalid Syntax';
+            $this->$output_var['email'] = 'False';
+            return ;
+        }
+
+
+
     }
 
 }
