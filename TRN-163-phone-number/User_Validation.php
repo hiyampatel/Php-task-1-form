@@ -6,15 +6,59 @@ class User_Validate
     private $output_val=['first'=>'', 'last'=>'', 'full'=>'', 'out'=>''];
     private $list_sub;
 
-
     private static $field = ['first', 'last'];
+
 
     public function __construct($post_data)
     {
         $this->data = $post_data;
     }
 
+
+    //main function
     public function validateForm()
+    {
+
+        $this->name_validation();
+        $this->phone_validation();
+
+        return $this->$output_val;
+    }
+
+
+    //string validation
+    private function validate_str($string)
+    {
+        $string = trim($string);
+        $string = stripslashes($string);
+        $string = htmlspecialchars($string);
+        return $string;
+    }
+
+
+    //Setting value for table
+    public function Marks()
+    {
+        $list = ($this->data['marks']);
+
+        if (empty($list))
+        {
+            return '';
+        }
+
+        $list_sup = explode("\n", $list);
+
+        foreach($list_sup as $subject)
+        {
+            $n = explode("|", $subject);
+            $this->$list_sub[$n[0]] = $n[1];
+        }
+        return $this->$list_sub;
+    }
+
+
+    //Validating first name and last name
+    private function name_validation()
     {
         foreach(self::$field as $value)
         {
@@ -44,38 +88,27 @@ class User_Validate
         {
             $this->$output_val['out'] = "Hello " . $this->data['first'] . " " . $this->data['last'];
         }
-
-        return $this->$output_val;
     }
 
 
-    private function validate_str($string)
+    //validating email
+    private function phone_validation()
     {
-        $string = trim($string);
-        $string = stripslashes($string);
-        $string = htmlspecialchars($string);
-        return $string;
-    }
-
-
-
-    public function Marks()
-    {
-        $list = ($this->data['marks']);
-
-        if (empty($list))
+        if(empty($this->data['phone']))
         {
-            return '';
+            $this->$output_val['phone'] = '';
+            return ;
         }
 
-        $list_sup = explode("\n", $list);
-
-        foreach($list_sup as $subject)
+        $p = $this->data['phone'];
+        if(!preg_match('/^((?:\+)91(\s)?)\d{10}$/' ,$p))
         {
-            $n = explode("|", $subject);
-            $this->$list_sub[$n[0]] = $n[1];
+            $this->$output_val['phone'] = 'False';
         }
-        return $this->$list_sub;
+        else
+        {
+            $this->$output_val['phone'] = $this->data['phone'];
+        }
     }
 
 }

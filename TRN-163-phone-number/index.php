@@ -14,6 +14,7 @@
             $output_img = "";
             $output = [];
             $message = '';
+            $p_message = '';
             $table = "";
 
             if(isset($_POST['submit']))
@@ -23,12 +24,21 @@
                 $table = $validation->Marks();
                 $output = $validation->validateForm();
 
-                if(($output['first'] == 'Required') || ($output['last'] == 'Required') || ($table == ''))
+                if(($output['first'] == 'Required') || ($output['last'] == 'Required') || ($table == '') || ($output['phone'] == ''))
                 {
                     $message = 'All fields Required';
                     $table = "";
                     $output['full'] = '';
                     $output['out'] = '';
+                }
+                else if($output['phone'] == 'False')
+                {
+                    $output_img = '';
+                    $output['full'] = '';
+                    $output['out'] = '';
+                    $table = '';
+                    $message = 'Not a valid Indian number';
+                    $p_message = "<br><b>Number must start with +91 and must contain 10 digits<b>";
                 }
                 else
                 {
@@ -71,8 +81,13 @@
 
             <textarea rows="15" cols="50" name="marks"></textarea><br><br>
 
+            Phone Number : <input type="text" name="phone"><div><?php echo $p_message; ?></div><br><br>
+
             <input type="submit" name="submit" value="Submit">
         </form>
+
+        <br><br>
+
 
         <h2><?php echo $output['out']?></h2>
 
@@ -84,7 +99,7 @@
 
             if($table != '')
             {
-                echo "<table>";
+                echo "<table border='1' cellspacing='0'>";
 
                 echo "<tr>";
                 echo "<td><b>Subject</b></td>";
