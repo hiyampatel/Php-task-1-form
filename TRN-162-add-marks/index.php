@@ -4,11 +4,6 @@
 <html>
     <head>
         <title>Form</title>
-        <style>
-            <?php
-                echo "td{padding:5px;}";
-            ?>
-        </style>
     </head>
     <body>
         <?php
