@@ -10,6 +10,8 @@
 
             require('User_Validation.php');
             require('upload.php');
+            require('save_file.php');
+
 
             $output_img = "";
             $output = [];
@@ -73,6 +75,11 @@
                         $output['out'] = '';
                         $table = '';
                         $message = 'Not an Image file';
+                    }
+                    else
+                    {
+                        $save = new Save_File($_POST, $table, $output_img);
+                        $save->save_info();
                     }
 
                 }
