@@ -23,6 +23,9 @@ class Save_File
         fwrite($open_file,$s_data);
         fclose($open_file);
 
+        $this->file_download();
+
+
         return ;
     }
 
@@ -41,10 +44,24 @@ class Save_File
 
         $first = $first . "</table>";
 
+        $path = __DIR__ . "/Images/";
 
-        $first = $first . "<br>Image : <br><img src='../Images/" . $this->img . "'>";
+        $first = $first . "<br>Image : <br><img src='". $path . $this->img . "'>";
 
         return $first;
+    }
+
+
+
+    private function file_download()
+    {
+        $name = "Files/Form.doc";
+        //header('Content-Description: File Transfer');
+        header('Content-Type: application/msword');
+        header("Content-Disposition: attachment; filename=\"Form.doc");
+        readfile($name); //showing the path to the server where
+        exit;
+        return ;
     }
 }
 

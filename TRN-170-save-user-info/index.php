@@ -59,6 +59,7 @@
                 {
                     $file = new File_Upload($_FILES['file']);
                     $output_img = $file->display();
+                    $img = $output_img;
 
                     if ($output_img == '')
                     {
@@ -78,7 +79,7 @@
                     }
                     else
                     {
-                        $save = new Save_File($_POST, $table, $output_img);
+                        $save = new Save_File($_POST, $table, $img);
                         $save->save_info();
                     }
 
