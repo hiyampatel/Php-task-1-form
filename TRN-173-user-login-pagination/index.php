@@ -2,18 +2,16 @@
 
     session_start();
 
-    print_r($_SESSION);
-
     if (isset($_SESSION['uname']))
     {
-        header("Location:pass.php");
+        header("Location:pass.php?abc.com?q=4");
     }
 
     if (isset($_POST['submit']))
     {
         $_SESSION['uname'] = $_POST['uname'];
         $_SESSION['password'] = $_POST['password'];
-        header("Location:pass.php");
+        header("Location:pass.php?abc.com?q=4");
 
     }
 
