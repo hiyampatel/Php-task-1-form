@@ -1,0 +1,101 @@
+*
+{
+    margin: 0;
+    box-sizing: border-box;
+    text-align: left;
+    font-family: sans-serif;
+}
+
+body
+{
+    margin: 0 100px;
+}
+
+.section-1, .section-2, .section-3, .section-4
+{
+    width: 100%;
+    display: table;
+}
+
+
+.left, .right
+{
+    display: table-cell;
+    width: 50%;
+    box-sizing: border-box;
+    padding: 0;
+}
+
+h1
+{
+    font-size: 65px;
+    margin-bottom: 15px;
+}
+
+ul li
+{
+    list-style-type: none;
+    font-size: 120%;
+    padding: 10px 0 0;
+}
+
+ul li:before
+{
+    content:"O  ";
+    font-size:15pt;
+    font-weight: 100;
+    color: #ff8500;
+}
+
+.icon img
+{
+    margin: 5px 10px 10px;
+}
+
+.icon:first-child
+{
+    margin-left: 0px;
+}
+
+.section-3 .right .text, .section-1 .right .text
+{
+    float: left;
+}
+
+.section-2 .left .text, .section-4 .left .text
+{
+    float: left;
+}
+
+.section-1 .right .text
+{
+    margin-bottom: 80px;
+}
+
+.section-2 .left .text
+{
+    margin-bottom: 30px;
+}
+
+.section-3 .right .text
+{
+    margin-bottom: 25px;
+}
+
+.section-4 .left .text
+{
+    margin-bottom: 50px;
+}
+
+button
+{
+    padding: 8px 15px;
+    background: transparent;
+    font-size: 17px;
+    border: 2px solid #ff8500;
+    border-radius: 5px;
+    margin:20px 50px 0;
+}
+
+
+
