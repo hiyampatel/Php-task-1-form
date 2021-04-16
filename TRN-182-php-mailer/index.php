@@ -1,9 +1,3 @@
-<?php
-
-require 'send.php';
-
-?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +5,7 @@ require 'send.php';
 </head>
 <body>
     <h1>PHP mailer</h1>
-    <form action="" method="POST">
+    <form action="send.php" method="POST">
         Email: <input type="email" name="email"><br><br>
         <input type="submit" name="submit">
     </form>
