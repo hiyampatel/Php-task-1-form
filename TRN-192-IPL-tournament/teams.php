@@ -45,7 +45,8 @@ if(isset($_POST['submit']))
         Captain : <input type="text" name="captain"><br><br>
         <input type="submit" name="submit"><br><br>
     </form>
-    <?php echo $new;?>
+    <?php echo $new;?><br><br>
+    <a href="index.php">Back</a>
 
 </body>
 </html>

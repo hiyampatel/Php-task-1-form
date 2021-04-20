@@ -43,7 +43,7 @@ if(isset($_POST['submit']))
         Venue : <input type="text" name="venue"><br><br>
         <input type="submit" name="submit"><br><br>
     </form>
-    <?php echo $new;?>
-
+    <?php echo $new;?><br><br>
+    <a href="index.php">Back</a>
 </body>
 </html>
