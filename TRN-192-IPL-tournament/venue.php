@@ -17,7 +17,7 @@ if ($conn->connect_error)
 
 if(isset($_POST['submit']))
 {
-    $sql = "INSERT INTO Venue() VALUES('".$_POST['venue']."')";
+    $sql = "INSERT INTO Venue(Venue) VALUES('".$_POST['venue']."')";
     if ($conn->query($sql) === TRUE)
     {
         $new = "<b>Status: </b>New record created successfully";
