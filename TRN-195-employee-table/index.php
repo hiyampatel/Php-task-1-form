@@ -8,9 +8,9 @@ $emp->create_conn();
 
 if(isset($_POST['submit']))
 {
-    if(($_POST['id']=='') || ($_POST['firstname']=='') || ($_POST['lastname']=='') || ($_POST['code']=='') || ($_POST['codename']=='') || ($_POST['domain']=='') || ($_POST['salary']=='') || ($_POST['percentile']==''))
+    if(($_POST['id']=='') || ($_POST['code']==''))
     {
-        $error = 'All fields are Required';
+        $error = 'Employee Id and Employee Code are Required';
     }
     else
     {
@@ -23,7 +23,7 @@ if(isset($_POST['submit']))
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Match</title>
+    <title>Employee</title>
 </head>
 <body>
     <h1>Employee Details</h1>
@@ -42,7 +42,6 @@ if(isset($_POST['submit']))
     <?php echo $new;?>
 
     <b><?php echo $error;?></b>
-
 
 </body>
 </html>
