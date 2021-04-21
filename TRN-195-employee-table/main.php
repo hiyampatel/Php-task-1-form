@@ -4,7 +4,12 @@
     {
         private $data, $conn;
 
-        public function create_conn()
+        public function start()
+        {
+            $this->create_conn();
+        }
+
+        private function create_conn()
         {
             $servername = 'localhost';
             $username = 'root';
@@ -81,6 +86,53 @@
             return $result;
         }
 
+
+        public function select($select)
+        {
+            $out = 'SELECT ';
+            foreach ($select as $key1 => $value1)
+            {
+                if(is_array($value1))
+                {
+                    foreach ($value1 as $value2)
+                    {
+                        $out = $out.$key1.".".$value2.", ";
+                    }
+                }
+                else
+                {
+                    $out = $out." ".$value1.", ";
+                }
+
+            }
+
+            $out = rtrim($out, ", ");
+            $out = $out." FROM employee_details_table, employee_code_table, employee_salary_table ";
+
+            return $out;
+        }
+
+        public function where($where=array())
+        {
+            $out = 'WHERE ';
+            foreach ($where as $value)
+            {
+                $out = $out.$value." AND ";
+            }
+            $out = $out.'employee_details_table.employee_id=employee_salary_table.employee_id AND employee_salary_table.employee_code=employee_code_table.employee_code';
+            return $out;
+        }
+
+        public function other_add($other)
+        {
+            $out = '';
+            foreach ($other as $key => $value)
+            {
+                $out = " ".$key." ".$value;
+            }
+
+            return $out;
+        }
 
     }
 

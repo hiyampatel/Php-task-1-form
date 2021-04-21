@@ -3,7 +3,7 @@
 require 'main.php';
 
 $emp = new Employee_Detail();
-$emp->create_conn();
+$emp->start();
 
 
 if(isset($_POST['submit']))
@@ -51,9 +51,11 @@ if(isset($_POST['submit']))
         </tr>
         <?php
 
-            $sql = "SELECT D.employee_first_name, S.employee_salary
-            FROM employee_details_table AS D, employee_salary_table AS S
-            WHERE S.employee_salary>'50k' AND D.employee_id=S.employee_id";
+            //select has parameters as array(tablename => array of fields to be displayed)
+            $sql = $emp->select(array('employee_details_table'=>array('employee_first_name'), 'employee_salary_table'=>array('employee_salary')));
+
+            //where has parameters as conditions
+            $sql = $sql.$emp->where(array('employee_salary_table.employee_salary>"50k"'));
 
             $result = $emp->fetch_data($sql);
 
@@ -74,10 +76,11 @@ if(isset($_POST['submit']))
             <td>Graduation_percentile</td>
         </tr>
         <?php
+            //select has parameters as array(tablename => array of fields to be displayed)
+            $sql = $emp->select(array('employee_details_table'=>array('employee_last_name','Graduation_percentile')));
 
-            $sql = "SELECT employee_last_name, Graduation_percentile
-                    FROM employee_details_table
-                    WHERE Graduation_percentile>'70%'";
+            //where has parameters as conditions
+            $sql = $sql.$emp->where(array('employee_details_table.Graduation_percentile>"70%"'));
 
             $result = $emp->fetch_data($sql);
 
@@ -98,10 +101,11 @@ if(isset($_POST['submit']))
             <td>Graduation_percentile</td>
         </tr>
         <?php
+            //select has parameters as array(tablename => array of fields to be displayed)
+            $sql = $emp->select(array('employee_code_table'=>array('employee_code_name'),'employee_details_table'=>array('Graduation_percentile')));
 
-            $sql = "SELECT C.employee_code_name, D.Graduation_percentile
-                    FROM employee_details_table AS D, employee_code_table AS C, employee_salary_table AS S
-                    WHERE D.Graduation_percentile<'70%' AND D.employee_id=S.employee_id AND S.employee_code=C.employee_code";
+            //where has parameters as conditions
+            $sql = $sql.$emp->where(array('employee_details_table.Graduation_percentile<"70%"'));
 
             $result = $emp->fetch_data($sql);
 
@@ -122,10 +126,11 @@ if(isset($_POST['submit']))
             <td>employee_domain</td>
         </tr>
         <?php
+            //select has parameters as array(tablename => array of fields to be displayed)
+            $sql = $emp->select(array('CONCAT(employee_details_table.employee_first_name," ",employee_details_table.employee_last_name) AS "Full Name"', 'employee_code_table'=>array('employee_domain')));
 
-            $sql = "SELECT CONCAT(D.employee_first_name,' ',D.employee_last_name) AS 'Full Name', C.employee_domain
-                    FROM employee_details_table AS D, employee_code_table AS C, employee_salary_table AS S
-                    WHERE NOT C.employee_domain='Java' AND D.employee_id=S.employee_id AND S.employee_code=C.employee_code";
+            //where has parameters as conditions
+            $sql = $sql.$emp->where(array('employee_details_table.Graduation_percentile<"70%"'));
 
             $result = $emp->fetch_data($sql);
 
@@ -147,10 +152,13 @@ if(isset($_POST['submit']))
         </tr>
         <?php
 
-            $sql = "SELECT C.employee_domain, SUM(S.employee_salary)
-                    FROM employee_details_table AS D, employee_code_table AS C, employee_salary_table AS S
-                    WHERE D.employee_id=S.employee_id AND S.employee_code=C.employee_code
-                    GROUP BY C.employee_domain";
+            //select has parameters as array(tablename => array of fields to be displayed)
+            $sql = $emp->select(array('employee_code_table'=>array('employee_domain'), 'SUM(employee_salary_table.employee_salary) AS "Total Sum"'));
+
+            //where has parameters as conditions
+            $sql = $sql.$emp->where();
+
+            $sql = $sql.$emp->other_add(array('GROUP BY'=>'employee_code_table.employee_domain'));
 
             $result = $emp->fetch_data($sql);
 
@@ -158,7 +166,7 @@ if(isset($_POST['submit']))
             {
                 while($row = $result->fetch_assoc())
                 {
-                    echo "<tr><td>".$row['employee_domain']."</td><td>".$row['SUM(S.employee_salary)']."</td></tr>";
+                    echo "<tr><td>".$row['employee_domain']."</td><td>".$row['Total Sum']."</td></tr>";
                 }
             }
         ?>
@@ -171,11 +179,13 @@ if(isset($_POST['submit']))
             <td>Sum of salary</td>
         </tr>
         <?php
+            //select has parameters as array(tablename => array of fields to be displayed)
+            $sql = $emp->select(array('employee_code_table'=>array('employee_domain'), 'SUM(employee_salary_table.employee_salary) AS "Total Sum"'));
 
-            $sql = "SELECT C.employee_domain, SUM(S.employee_salary)
-                    FROM employee_details_table AS D, employee_code_table AS C, employee_salary_table AS S
-                    WHERE NOT S.employee_salary<'30k' AND D.employee_id=S.employee_id AND S.employee_code=C.employee_code
-                    GROUP BY C.employee_domain";
+            //where has parameters as conditions
+            $sql = $sql.$emp->where(array('NOT employee_salary_table.employee_salary<"30k"'));
+
+            $sql = $sql.$emp->other_add(array('GROUP BY'=>'employee_code_table.employee_domain'));
 
             $result = $emp->fetch_data($sql);
 
@@ -183,7 +193,7 @@ if(isset($_POST['submit']))
             {
                 while($row = $result->fetch_assoc())
                 {
-                    echo "<tr><td>".$row['employee_domain']."</td><td>".$row['SUM(S.employee_salary)']."</td></tr>";
+                    echo "<tr><td>".$row['employee_domain']."</td><td>".$row['Total Sum']."</td></tr>";
                 }
             }
         ?>
@@ -198,7 +208,13 @@ if(isset($_POST['submit']))
 
             $sql = "SELECT S.employee_id
                     FROM employee_code_table AS C, employee_salary_table AS S
-                    WHERE C.employee_code_name='' AND S.employee_code=C.employee_code;";
+                    WHERE  AND S.employee_code=C.employee_code;";
+
+            //select has parameters as array(tablename => array of fields to be displayed)
+            $sql = $emp->select(array('employee_salary_table'=>array('employee_id')));
+
+            //where has parameters as conditions
+            $sql = $sql.$emp->where(array('employee_code_table.employee_code_name=""'));
 
             $result = $emp->fetch_data($sql);
 
