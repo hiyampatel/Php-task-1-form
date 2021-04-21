@@ -1,26 +1,12 @@
 <?php
 
-$servername = 'localhost';
-$username = 'root';
-$password = 'hiya1234';
-$db = 'IPL_tournament';
+require 'main.php';
 
-$new = '';
-
-$conn = new mysqli($servername, $username, $password, $db);
-
-// Check connection
-if ($conn->connect_error)
-{
-    die("Connection failed: " . $conn->connect_error);
-}
-
-$sql1 = "SELECT * FROM Venue";
-$ven = $conn->query($sql1);
-
-$sql2 = "SELECT * FROM Teams";
-$team = $conn->query($sql2);
-$error = '';
+$match = new IPL_Tournament();
+$res = $match->main();
+$ven = $res[0];
+$team = $res[1];
+$tour = $res[2];
 
 if(isset($_POST['submit']))
 {
@@ -34,29 +20,11 @@ if(isset($_POST['submit']))
     }
     else
     {
-        $_POST['venue'] = (int)$_POST['venue'];
-        $_POST['toss'] = (int)$_POST['toss'];
-        $lose = 0;
-
-        if($_POST['winner'] == $_POST['team1'])
-        {
-            $lose = (int)$_POST['team1'];
-        }
-        else
-        {
-            $lose = (int)$_POST['team2'];
-        }
-        $_POST['winner'] = (int)$_POST['winner'];
-
-        $sql = "INSERT INTO Tournament(Event_Date, Venue_Id, Toss_won, Losing_team, Winning_team) VALUES('".$_POST['date']."', ".$_POST['venue'].", ".$_POST['toss'].", ".$lose.", ".$_POST['winner'].")";
-        if ($conn->query($sql) === TRUE)
-        {
-            $new = "<b>Status: </b>New record created successfully<br><br>";
-        }
-        else
-        {
-            $new = "<b>Status: </b>Error: " . $sql . "<br><br>" . $conn->error;
-        }
+        $new = $match->enter_match($_POST);
+        $res = $match->fetch_data();
+        $ven = $res[0];
+        $team = $res[1];
+        $tour = $res[2];
     }
 }
 
@@ -202,8 +170,6 @@ if(isset($_POST['submit']))
             <td>Winning team Id</td>
         </tr>
         <?php
-            $sql1 = "SELECT * FROM Tournament";
-            $tour = $conn->query($sql1);
             if ($tour->num_rows > 0)
             {
                 while($row = $tour->fetch_assoc())
@@ -214,15 +180,7 @@ if(isset($_POST['submit']))
         ?>
     </table>
 
-<!--
-Id INTEGER PRIMARY KEY AUTO_INCREMENT,
-Event_Date DATE UNIQUE,
-Venue_Id INTEGER,
-Toss_won INTEGER,
-Losing_team INTEGER,
-Winning_team INTEGER,
 
--->
 
 </body>
 </html>

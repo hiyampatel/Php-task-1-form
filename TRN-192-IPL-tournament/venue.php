@@ -1,19 +1,9 @@
 <?php
 
-$servername = 'localhost';
-$username = 'root';
-$password = 'hiya1234';
-$db = 'IPL_tournament';
+require 'main.php';
 
+$match = new IPL_Tournament();
 $new = '';
-
-$conn = new mysqli($servername, $username, $password, $db);
-
-// Check connection
-if ($conn->connect_error)
-{
-    die("Connection failed: " . $conn->connect_error);
-}
 
 if(isset($_POST['submit']))
 {
@@ -24,15 +14,9 @@ if(isset($_POST['submit']))
     }
     else
     {
+        $match->create_conn();
         $sql = "INSERT INTO Venue(Venue) VALUES('".$_POST['venue']."')";
-        if ($conn->query($sql) === TRUE)
-        {
-            $new = "<b>Status: </b>New record created successfully";
-        }
-        else
-        {
-            $new = "<b>Status: </b>Error: " . $sql . "<br>" . $conn->error;
-        }
+        $new = $match->add_data($sql);
     }
 
 }
