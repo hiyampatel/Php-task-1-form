@@ -154,5 +154,75 @@ if(isset($_POST['submit']))
 
     <b><?php echo $error;?></b>
 
+    <br>
+    <h2>Teams and their Captain</h2>
+    <table>
+        <tr><td>ID</td>
+            <td>Team Name</td>
+            <td>Captain Name</td>
+        </tr>
+        <?php
+            mysqli_data_seek($team,0);
+            if ($team->num_rows > 0)
+            {
+                while($row = $team->fetch_assoc())
+                {
+                    echo "<tr><td>".$row['Id']."</td><td>".$row['Team_name']."</td><td>".$row['Captain_name']."</td></tr>";
+                }
+            }
+        ?>
+    </table>
+
+    <br>
+    <h2>Venue</h2>
+    <table>
+        <tr><td>ID</td>
+            <td>Venue</td>
+        </tr>
+        <?php
+            mysqli_data_seek($ven,0);
+            if ($ven->num_rows > 0)
+            {
+                while($row = $ven->fetch_assoc())
+                {
+                    echo "<tr><td>".$row['Id']."</td><td>".$row['Venue']."</td></tr>";
+                }
+            }
+        ?>
+    </table>
+
+    <br>
+    <h2>Match Schedule</h2>
+    <table>
+        <tr><td>ID</td>
+            <td>Date</td>
+            <td>Venue Id</td>
+            <td>Toss won Id</td>
+            <td>Losing team Id</td>
+            <td>Winning team Id</td>
+        </tr>
+        <?php
+            $sql1 = "SELECT * FROM Tournament";
+            $tour = $conn->query($sql1);
+            if ($tour->num_rows > 0)
+            {
+                while($row = $tour->fetch_assoc())
+                {
+                    echo "<tr><td>".$row['Id']."</td><td>".$row['Event_Date']."</td><td>".$row['Venue_Id']."</td><td>".$row['Toss_won']."</td><td>".$row['Losing_team']."</td><td>".$row['Winning_team']."</td></tr>";
+                }
+            }
+        ?>
+    </table>
+
+<!--
+Id INTEGER PRIMARY KEY AUTO_INCREMENT,
+Event_Date DATE UNIQUE,
+Venue_Id INTEGER,
+Toss_won INTEGER,
+Losing_team INTEGER,
+Winning_team INTEGER,
+
+-->
+
 </body>
 </html>
