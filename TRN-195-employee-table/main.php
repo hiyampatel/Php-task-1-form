@@ -74,6 +74,14 @@
         }
 
 
+        public function fetch_data($sql)
+        {
+            $result = $this->conn->query($sql);
+
+            return $result;
+        }
+
+
     }
 
 ?>
