@@ -18,15 +18,23 @@ if ($conn->connect_error)
 
 if(isset($_POST['submit']))
 {
-    $sql = "INSERT INTO Teams(Team_name, Captain_name) VALUES('".$_POST['team']."', '".$_POST['captain']."')";
-    if ($conn->query($sql) === TRUE)
+    if(($_POST['team']=='')||($_POST['captain']==''))
     {
-        $new = "<b>Status: </b>New record created successfully";
+        $new = 'All fields are required.';
     }
     else
     {
-        $new = "<b>Status: </b>Error: " . $sql . "<br>" . $conn->error;
+        $sql = "INSERT INTO Teams(Team_name, Captain_name) VALUES('".$_POST['team']."', '".$_POST['captain']."')";
+        if ($conn->query($sql) === TRUE)
+        {
+            $new = "<b>Status: </b>New record created successfully";
+        }
+        else
+        {
+            $new = "<b>Status: </b>Error: " . $sql . "<br>" . $conn->error;
+        }
     }
+
 
 }
 

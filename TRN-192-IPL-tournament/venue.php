@@ -17,14 +17,22 @@ if ($conn->connect_error)
 
 if(isset($_POST['submit']))
 {
-    $sql = "INSERT INTO Venue(Venue) VALUES('".$_POST['venue']."')";
-    if ($conn->query($sql) === TRUE)
+
+    if($_POST['venue']=='')
     {
-        $new = "<b>Status: </b>New record created successfully";
+        $new = 'Field is required.';
     }
     else
     {
-        $new = "<b>Status: </b>Error: " . $sql . "<br>" . $conn->error;
+        $sql = "INSERT INTO Venue(Venue) VALUES('".$_POST['venue']."')";
+        if ($conn->query($sql) === TRUE)
+        {
+            $new = "<b>Status: </b>New record created successfully";
+        }
+        else
+        {
+            $new = "<b>Status: </b>Error: " . $sql . "<br>" . $conn->error;
+        }
     }
 
 }
