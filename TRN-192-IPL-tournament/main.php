@@ -6,6 +6,7 @@
         private $ven, $team, $tour;
         private $a=array();
 
+        //To create connection and fetching all the table data
         public function main()
         {
             $this->create_conn();
@@ -13,7 +14,9 @@
             return $b;
         }
 
-        public function create_conn()
+
+        // To create connection with database
+        private function create_conn()
         {
             $servername = 'localhost';
             $username = 'root';
@@ -29,6 +32,9 @@
             }
         }
 
+
+        // getting table data by passing a query
+        // returns the data in form of array of array
         public function fetch_data()
         {
             $sql1 = "SELECT * FROM Venue";
@@ -46,6 +52,8 @@
         }
 
 
+        //setting the query for entering the data into match table by using the information obtained from the form
+        //returns query
         public function enter_match($post_data)
         {
             $this->data = $post_data;
@@ -71,6 +79,8 @@
             return $new;
         }
 
+
+        //takes query as input and add the data
         public function add_data($sql)
         {
 
@@ -87,6 +97,50 @@
             return $new;
         }
 
+
+        //setting any method such as select and from which can take 2 parameters
+        //$select=the array of data to add to the $option command
+        public function select($select, $option)
+        {
+            $out = $option.' ';
+
+            foreach ($select as $key1 => $value1)
+            {
+                if(is_array($value1))
+                {
+                    $out = $out.$value1[0]." AS ".$value1[1].", ";
+                }
+                else
+                {
+                    $out = $out.$value1.", ";
+                }
+            }
+
+            $out = rtrim($out, ", ");
+
+            return $out;
+        }
+
+        //setting query for where command
+        public function where($where=array())
+        {
+            $out = 'WHERE ';
+            foreach ($where as $value)
+            {
+                $out = $out.$value." AND ";
+            }
+
+            $out = rtrim($out, " AND ");
+
+            return $out;
+        }
+
+        //running the query.
+        public function query_data($sql)
+        {
+            $result = $this->conn->query($sql);
+            return $result;
+        }
     }
 
 ?>

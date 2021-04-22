@@ -164,21 +164,32 @@ if(isset($_POST['submit']))
     <table>
         <tr><td>ID</td>
             <td>Date</td>
-            <td>Venue Id</td>
-            <td>Toss won Id</td>
-            <td>Losing team Id</td>
-            <td>Winning team Id</td>
+            <td>Venue </td>
+            <td>Toss won</td>
+            <td>Losing team</td>
+            <td>Winning team</td>
         </tr>
         <?php
-            if ($tour->num_rows > 0)
+
+            $sql = $match->select(array('T.Id','T.Event_Date','V.Venue',array('M1.Team_name','Toss_won'),array('M2.Team_name','Losing_team'),array('M3.Team_name','Winning_team')), 'SELECT');
+
+            $sql = $sql." ".$match->select(array(array('Tournament','T'),array('Venue','V'),array('Teams','M1'),array('Teams','M2'),array('Teams','M3')), 'FROM');
+
+            $sql = $sql." ".$match->where(array('T.Venue_Id=V.Id','M1.Id=T.Toss_won','M2.Id=T.Losing_team','M3.Id=T.Winning_team'));
+
+            $result = $match->query_data($sql);
+
+            if ($result->num_rows > 0)
             {
-                while($row = $tour->fetch_assoc())
+                while($row = $result->fetch_assoc())
                 {
-                    echo "<tr><td>".$row['Id']."</td><td>".$row['Event_Date']."</td><td>".$row['Venue_Id']."</td><td>".$row['Toss_won']."</td><td>".$row['Losing_team']."</td><td>".$row['Winning_team']."</td></tr>";
+                    echo "<tr><td>".$row['Id']."</td><td>".$row['Event_Date']."</td><td>".$row['Venue']."</td><td>".$row['Toss_won']."</td><td>".$row['Losing_team']."</td><td>".$row['Winning_team']."</td></tr>";
                 }
             }
         ?>
     </table>
+
+
 
 
 

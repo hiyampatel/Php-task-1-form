@@ -18,7 +18,6 @@ if(isset($_POST['submit']))
         $new = $match->add_data($sql);
     }
 
-
 }
 
 ?>
