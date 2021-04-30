@@ -9,12 +9,13 @@ class Login
 
     private $data, $conn;
 
+    //Storing the post data into data variable
     public function __construct($post_data)
     {
         $this->data = $post_data;
     }
 
-    //main function to connect to database
+    //main function to create connect to database
     public function main()
     {
         $this->create_conn();
@@ -39,8 +40,9 @@ class Login
 
     }
 
-    //checking for the user is registered or not
-    //store the message accordingly in Session['m']
+    //Checking for the user is registered or not
+    //If true then print welcome back message
+    //Else insert the data into table and print thanks foor registering message
     public function google_data()
     {
         $sql = 'SELECT * FROM Google_Login WHERE Email="'.$this->data['email'].'"';
@@ -63,7 +65,7 @@ class Login
 
 
 
-    //Storeing into $_SESSION variable
+    //Storeing the user info into $_SESSION variable
     public function set_session_var()
     {
         if(!empty($this->data['given_name']))

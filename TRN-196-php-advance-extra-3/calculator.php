@@ -5,7 +5,7 @@ class Calculator
 
     private $a, $b, $op;
 
-    //stores the value of a, b and operand
+    //Stored the value of a, b and operand
     public function __construct($aa,$opp,$bb)
     {
         $this->a = $aa;
@@ -49,11 +49,13 @@ class Calculator
 
 }
 
+//Storing the data of $_GET into variables.
 $a = (int)$_GET['a'];
 $b = (int)$_GET['b'];
 $op = $_GET['op'];
 
 
+//Creating object of class and performing the main function.
 $cal = new Calculator($a, $op, $b);
 $cal->main();
 

@@ -42,7 +42,8 @@ class Git_Login
     }
 
     //checking for the user is registered or not
-    //store the message accordingly in Session['m']
+    //If true then print welcome back message
+    //Else insert the data into table and print thanks foor registering message
     public function github_data()
     {
         $sql = 'SELECT * FROM Github_Login WHERE Id="'.$this->data->id.'"';
@@ -65,7 +66,7 @@ class Git_Login
 
 
 
-    //Storeing into $_SESSION variable
+    //Storeing the user info into $_SESSION variable
     public function set_session_var()
     {
         if(!empty($this->data->login))

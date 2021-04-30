@@ -5,12 +5,14 @@
     <script>
         function calculate(value = 0, name = '')
         {
+            //storing value in 3 variables
             if(name == 'a')
             {   a=value; }
             else if(name == 'b')
             {   b=value; }
             else
             {
+                //making the signs to corresponding string name
                 switch(value)
                 {
                     case '+': op='add'; break;
@@ -22,16 +24,25 @@
                 }
             }
 
+            //if a, b and op are defined or not null
+            //then send the data
             if(a!=undefined && b!=undefined && op!=undefined)
             {
+                //creating object of XMLHttpResponce
+                //this could help fetch the data using different method from another url
                 var xmlhttp = new XMLHttpRequest();
+
+                //action is perform when the document is ready
                 xmlhttp.onreadystatechange = function()
                 {
                     if (this.readyState == 4 && this.status == 200)
                     {
+                        //set the output variable as the response of the page
                         document.getElementById("output").innerHTML = this.responseText;
                     }
                 };
+
+                //sending the data using GET method to calculator.php
                 xmlhttp.open("GET", "calculator.php?a=" + a+"&op="+op+"&b="+b, true);
                 xmlhttp.send();
             }
