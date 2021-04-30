@@ -1,5 +1,8 @@
 <?php
 
+require 'github_class.php';
+
+//displaying the error message if token is not valid.
 function error($msg)
 {
     $response = [];
@@ -13,7 +16,7 @@ $access_token = $_SESSION['my_access_token'];
 
 if($access_token == '')
 {
-    die(error('Error: Invalid acess token'));
+    die(error('Error: Invalid access token'));
 }
 
 
@@ -22,6 +25,7 @@ $url = 'https://api.github.com/user';
 $authHeader = "Authorization: token ".$access_token;
 $userAgentHeader = "User-Agent: Demo";
 
+// Getting the user info using Accesstoken
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -33,7 +37,13 @@ $v = json_decode($json);
 
 curl_close($ch);
 
-print_r($v);
+//Displaying the data and storing the info into database
+$login = new Git_Login($v);
+$login->set_session_var();
+$login->main();
+$login->github_data();
+
+echo $_SESSION['m'];
 
 
 ?>

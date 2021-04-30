@@ -1,5 +1,8 @@
 <?php
 
+/*
+Created a Database Google_Github with table Google_Login having Id, First_name, Last_name, Email as fields.
+*/
 
 class Login
 {
@@ -11,7 +14,7 @@ class Login
         $this->data = $post_data;
     }
 
-    //main function
+    //main function to connect to database
     public function main()
     {
         $this->create_conn();
@@ -36,7 +39,8 @@ class Login
 
     }
 
-
+    //checking for the user is registered or not
+    //store the message accordingly in Session['m']
     public function google_data()
     {
         $sql = 'SELECT * FROM Google_Login WHERE Email="'.$this->data['email'].'"';
@@ -46,7 +50,6 @@ class Login
         if($tout->num_rows > 0)
         {
             $_SESSION['m'] = "<h1>Welcome Back ".$this->data['given_name']." ".$this->data['family_name']."</h1>";
-            //echo "<h1>Welcome Back ".$this->data['given_name']." ".$this->data['family_name']."</h1>";
         }
         else
         {
@@ -54,7 +57,6 @@ class Login
 
             $out = $this->conn->query($sql);
             $_SESSION['m'] = "<h1>Thank you for signing up!<h1>";
-            //echo "<h1>Thank you for signing up!<h1>";
         }
     }
 
